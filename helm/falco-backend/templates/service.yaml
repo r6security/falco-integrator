@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: falco-integrator
+spec:
+  selector:
+    app.kubernetes.io/name: falco-integrator
+  ports:
+    - protocol: TCP
+      port: {{ .Values.port }}
+      targetPort: web
+      name: web

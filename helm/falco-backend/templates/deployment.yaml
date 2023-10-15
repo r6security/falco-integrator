@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: falco-integrator
+  name: falco-integrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: falco-integrator
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: falco-integrator
+    spec:
+      containers:
+      - image: phoenixop/falco-integrator:0.0.1
+        name: falco-integrator
+        imagePullPolicy: Always
+        env:
+        - name: SERVER_PORT
+          value: "11111" 
+        ports:
+        - name: web-{{ .Capabilities.APIVersions }}
+          containerPort: 11111
+{{- if (hasKey .Values "imagePullSecrets") }}
+      imagePullSecrets: 
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+{{ end }}
+status: {}
