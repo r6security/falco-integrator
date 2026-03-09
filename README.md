@@ -30,6 +30,15 @@ The application itself does not require any configuration. The generated Securit
 
 For more details about the Phoenix AMTD operator please visit its [repository](https://github.com/r6security/phoenix/).
 
+## RBAC and permissions
+
+The Falco-integrator creates Phoenix `SecurityEvent` resources via the Kubernetes API. When deployed in-cluster it needs a ServiceAccount and RBAC that grants:
+
+- **create**, **get**, **list**, **update** on `securityevents.amtd.r6security.com` (or the CRD group/resource used by Phoenix) in the namespace(s) where SecurityEvents are written.
+- **get**, **list** on **namespaces** if the integrator resolves or watches namespaces.
+
+Least privilege: restrict to the namespaces where Phoenix and the integrator operate. Example manifest patterns are the same as for [Phoenix](https://github.com/r6security/phoenix) integration backends; see Phoenix docs for CRD and API group.
+
 ## Caveats
 
 * The project is in an early stage where the current focus is to be able to provide a proof-of-concept implementation that a wider range of potential users can try out. We are welcome all feedbacks and ideas as we continuously improve the project and introduc new features.
